@@ -1,10 +1,16 @@
 const { parentPort } = require('worker_threads');
+const Cabin = require('cabin');
+const { Signale } = require('signale');
 const Message = require('../models/Message');
 const moment = require('moment-timezone');
 const connectDB = require('../config/db');
 const { textBroadcast } = require('../libs/broadcast-text');
 
-console.log(moment.tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm'));
+const cabin = new Cabin({
+  axe: {
+    logger: new Signale(),
+  },
+});
 
 let isCancelled = false;
 if (parentPort) {
@@ -36,7 +42,7 @@ if (parentPort) {
           } else {
             console.log('<<< start broadcast message >>>');
             try {
-              // broadcast message
+              cabin.info('broadcast message');
               await textBroadcast(message.text);
               // update broadcast status
               await Message.findOneAndUpdate(
@@ -48,7 +54,7 @@ if (parentPort) {
                 }
               );
             } catch (err) {
-              console.error(err);
+              cabin.error(err);
             }
             resolve();
           }
