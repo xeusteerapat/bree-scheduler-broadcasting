@@ -14,7 +14,7 @@ const bree = new Bree({
   jobs: [
     {
       name: 'broadcast',
-      interval: '1m',
+      interval: '10s',
     },
   ],
 });
