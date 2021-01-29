@@ -4,6 +4,8 @@ const moment = require('moment-timezone');
 const connectDB = require('../config/db');
 const { textBroadcast } = require('../libs/broadcast-text');
 
+console.log(moment.tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm'));
+
 let isCancelled = false;
 if (parentPort) {
   parentPort.once('message', message => {
